@@ -37,9 +37,12 @@ jobs:
       - name: Set environment variables from Terraform outputs
         id: set_env
         run: |
-          echo "REGISTRY_HOSTNAME=$(terraform output -raw registry_hostname)" >> $GITHUB_ENV
-          echo "REGISTRY_UN=$(terraform output -raw registry_un)" >> $GITHUB_ENV
-          echo "REGISTRY_PW=$(terraform output -raw registry_pw)" >> $GITHUB_ENV
+          REGISTRY_HOSTNAME=$(terraform output -raw registry_hostname || echo "default_hostname")
+          REGISTRY_UN=$(terraform output -raw registry_un || echo "default_username")
+          REGISTRY_PW=$(terraform output -raw registry_pw || echo "default_password")
+          echo "REGISTRY_HOSTNAME=$REGISTRY_HOSTNAME" >> $GITHUB_ENV
+          echo "REGISTRY_UN=$REGISTRY_UN" >> $GITHUB_ENV
+          echo "REGISTRY_PW=$REGISTRY_PW" >> $GITHUB_ENV
         working-directory: ./terraform
 
       - name: Setting permissions for build script

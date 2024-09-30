@@ -1,1 +1,22 @@
-# Your Solution
+services:
+  book_catalog:
+    image: "${REGISTRY_HOSTNAME}/book_catalog:${VERSION}"
+    build:
+      context: ./book_catalog
+      dockerfile: Dockerfile
+    container_name: catalog
+    ports:
+      - "8000:8000" 
+    environment:
+      - DATABASE_URL=postgresql://likidb_hv6c_user:TIx238zshcTcN3wK1xibZNtv0MJ7v9TQ@dpg-crsvmjt2ng1s73bs98m0-a.oregon-postgres.render.com/likidb_hv6c
+
+  inventory_management:
+    image: "${REGISTRY_HOSTNAME}/inventory:${VERSION}"
+    build:
+      context: ./inventory_management
+      dockerfile: Dockerfile
+    container_name: inventory
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql://likidb_hv6c_user:TIx238zshcTcN3wK1xibZNtv0MJ7v9TQ@dpg-crsvmjt2ng1s73bs98m0-a.oregon-postgres.render.com/likidb_hv6c
